@@ -1,11 +1,15 @@
 package com.example.walletlog
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val intent = Intent(this, StarterActivity::class.java);
+        startActivity(intent);
+        finish();
     }
 }
