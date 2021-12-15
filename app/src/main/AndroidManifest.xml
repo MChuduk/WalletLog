@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalletLog">
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".SignIn"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
@@ -24,7 +27,7 @@
         </activity>
         <activity
             android:name=".StarterActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

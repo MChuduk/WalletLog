@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/WalletLog/app/src/main/res/drawable/splash_screen.xml" value="0.19074074074074074" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/activity_main.xml" value="0.275" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/activity_registration.xml" value="0.2" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_in.xml" value="0.275" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_up.xml" value="0.275" />
       </map>
     </option>
   </component>
