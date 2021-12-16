@@ -6,9 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CalendarView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.walletlog.dialogs.AddSpendingDialog
 import com.example.walletlog.dialogs.FundBankAccountDialog
 import com.example.walletlog.services.SignInService
+import com.example.walletlog.services.SpendingService
 import com.example.walletlog.services.UserService
 import okhttp3.*
 import java.io.IOException
@@ -18,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var user : User;
 
     private lateinit var calendarView : CalendarView;
+    private lateinit var recyclerView: RecyclerView;
     private lateinit var spendingDatePicker : SpendingDatePicker;
 
     private val client = OkHttpClient()
@@ -27,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         findViews();
 
-        spendingDatePicker = SpendingDatePicker(calendarView);
+        spendingDatePicker = SpendingDatePicker(calendarView, this);
 
         if(intent.hasExtra("User")){
             user = intent.extras?.getSerializable("User") as User;
@@ -44,10 +50,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.menu_item_add_spending -> addSpending();
             R.id.menu_item_exit -> exit();
             R.id.action_fund_account -> showFundBankAccountDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    fun showUserSpendingAtDate() {
+        val date = spendingDatePicker.getSelectedDate();
+        val spendingList = SpendingService.getUserSpending(this, user.id, date);
+        showUserSpending(spendingList);
+    }
+
+    fun showUserSpending(spending : MutableList<Spending>) {
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = linearLayoutManager
+        recyclerView.adapter = SpendingAdapter(spending)
     }
 
     fun changeUserBudget(budget : Int) {
@@ -55,9 +75,31 @@ class MainActivity : AppCompatActivity() {
         setCurrentBudget(budget);
     }
 
+    fun addSpending(value : Int, note : String) {
+        val date = spendingDatePicker.getSelectedDate();
+        val id = user.id;
+
+        val spending = Spending("", id, date, value, note);
+
+        SpendingService.addSpending(this, spending);
+        showUserSpendingAtDate();
+    }
+
+    fun onSpendingDeleteButtonClick(view : View) {
+        val id = view.tag.toString();
+
+        SpendingService.deleteSpending(this, id);
+        showUserSpendingAtDate();
+    }
+
     private fun showFundBankAccountDialog(){
         val dialog = FundBankAccountDialog(this);
         dialog.show(supportFragmentManager, "FundBankAccount");
+    }
+
+    private fun addSpending() {
+        val dialog = AddSpendingDialog(this);
+        dialog.show(supportFragmentManager, "AddSpending");
     }
 
     private fun exit() {
@@ -73,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun findViews() {
+        recyclerView = findViewById(R.id.recyclerView);
         calendarView = findViewById(R.id.calendarView);
     }
 

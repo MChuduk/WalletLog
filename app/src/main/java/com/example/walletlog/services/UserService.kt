@@ -38,7 +38,7 @@ class UserService {
             }
         }
 
-        fun insertUser(context: Context, user: User) {
+        fun insertUser(context: Context, user: User) : User? {
             try {
                 val db = SqliteDbHelper(context).writableDatabase;
                 val values = ContentValues();
@@ -46,10 +46,11 @@ class UserService {
                 values.put(UserLogin, user.login);
                 values.put(UserPassword, user.password);
                 values.put(UserBudget, user.budget);
-                val result = db.insertOrThrow(TableUsers, null, values);
-                showToastMessage(context, "Inserted RID: $result");
+                val id = db.insertOrThrow(TableUsers, null, values);
+                return User(id.toString(), user.login, user.password, user.budget);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
+                return null;
             }
         }
 

@@ -25,25 +25,24 @@
             android:textColorHint="#CDDC39"
             android:textColorLink="#FFEB3B" />
 
+        <EditText
+            android:id="@+id/spendingNoteEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#B8B8B8"
+            android:ems="10"
+            android:hint="Примечание"
+            android:inputType="text"
+            android:textColor="@color/pretty_text"
+            android:textColorHighlight="#FFEB3B"
+            android:textColorHint="#CDDC39"
+            android:textColorLink="#FFEB3B" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/setBankAccountLinkLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="Установить"
-                android:textColor="#FFEF63"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/addSpendingLinkLabel"
@@ -54,7 +53,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Пополнить"
+                android:text="Добавить"
                 android:textColor="#FFEF63"
                 android:textSize="16sp"
                 android:textStyle="bold" />

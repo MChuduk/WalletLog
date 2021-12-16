@@ -2,14 +2,12 @@ package com.example.walletlog.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.TextureView
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.walletlog.*
-import com.example.walletlog.services.UserService
 
 class FundBankAccountDialog(val activity: MainActivity) : AppCompatDialogFragment() {
 
@@ -42,8 +40,8 @@ class FundBankAccountDialog(val activity: MainActivity) : AppCompatDialogFragmen
     }
 
     private fun findViews(view : View) {
-        amountEditText = view.findViewById(R.id.budgetAmoutEditText);
+        amountEditText = view.findViewById(R.id.spendingAmountEditText);
         setBankAccountLinkLabel = view.findViewById(R.id.setBankAccountLinkLabel);
-        fundBankAccountLinkLabel = view.findViewById(R.id.fundBankAccountLinkLabel);
+        fundBankAccountLinkLabel = view.findViewById(R.id.addSpendingLinkLabel);
     }
 }

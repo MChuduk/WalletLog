@@ -16,9 +16,7 @@ class SignUpService {
                     throw Exception("The user with login $login already exists");
 
                 val user = User("", login, password, 0);
-                UserService.insertUser(context, user);
-
-                return UserService.getUser(context, login);
+                return UserService.insertUser(context, user);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
                 return null;
