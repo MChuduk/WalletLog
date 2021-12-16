@@ -1,5 +1,7 @@
 package com.example.walletlog
 
-class User(var login : String, var password : String) {
+import java.io.Serializable
+
+class User(var id : Int, var login : String, var password : String, var budget : Int) : Serializable {
 
 }

@@ -10,20 +10,24 @@ import java.io.FileReader
 class SignInService {
     companion object {
 
-        fun getSignedUser(context : Context) : User? {
-            val file = File(context.filesDir, "AppUser.json");
+        private const val rememberUserFileName = "AppUser.json";
+
+        fun rememberUser(context: Context, user : User) {
+            val file = File(context.filesDir, rememberUserFileName);
+
+            if(!file.exists())
+                file.createNewFile();
+
+            JsonService.exportToJson(context, file, user);
+        }
+
+        fun getRememberedUser(context : Context) : User? {
+            val file = File(context.filesDir, rememberUserFileName);
 
             if(!file.exists())
                 return null;
 
-            val reader = FileReader(file);
-            val bufferedReader = BufferedReader(reader);
-            val jsonString = bufferedReader.readLine();
-            bufferedReader.close();
-            reader.close();
-
-            val gson = GsonBuilder().create();
-            return gson.fromJson(jsonString, User::class.java);
+            return JsonService.importFromJson(context, file);
         }
     }
 }

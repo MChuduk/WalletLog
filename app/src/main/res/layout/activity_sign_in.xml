@@ -27,6 +27,12 @@
         android:hint="Пароль"
         android:inputType="textPassword" />
 
+    <CheckBox
+        android:id="@+id/rememberCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Запонить" />
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"

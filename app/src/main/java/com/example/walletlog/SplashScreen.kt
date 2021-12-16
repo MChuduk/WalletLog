@@ -13,14 +13,17 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val signedUser = SignInService.getSignedUser(applicationContext);
+        val rememberedUser = SignInService.getRememberedUser(this);
+        val intent = Intent(this, SignIn::class.java)
 
-            if(signedUser == null) {
-                val intent = Intent(applicationContext, SignIn::class.java)
-                startActivity(intent);
-                finish();
-            }
+        Log.d("qqqq ", (rememberedUser == null).toString())
+
+        if(rememberedUser != null) {
+            val bundle = Bundle();
+            bundle.putSerializable("RememberedUser", rememberedUser);
+            intent.putExtras(bundle);
         }
+        startActivity(intent);
+        finish();
     }
 }

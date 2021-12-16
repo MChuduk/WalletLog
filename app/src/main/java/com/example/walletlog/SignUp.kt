@@ -5,6 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import com.example.walletlog.services.UserService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class SignUp : AppCompatActivity() {
 
@@ -21,6 +26,12 @@ class SignUp : AppCompatActivity() {
     fun onSignUpButtonClick(view : View) {
         val login = loginEditText.text.toString();
         val password = passwordEditText.text.toString();
+
+        UserService.registerUse(this, login, password);
+
+ /*       CoroutineScope(Dispatchers.IO).launch {
+            UserService.registerUse(applicationContext, login, password);
+        }*/
     }
 
     fun onLinkedLabelClick(view : View){
