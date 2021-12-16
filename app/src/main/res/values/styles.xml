@@ -4,4 +4,11 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/pretty_grey</item>
+        <item name="colorPrimaryDark">@color/pretty_grey_dark</item>
+        <item name="colorAccent">@color/pretty_text</item>
+    </style>
 </resources>

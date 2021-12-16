@@ -29,5 +29,14 @@ class SignInService {
 
             return JsonService.importFromJson(context, file);
         }
+
+        fun logoutUser(context : Context) {
+            val file = File(context.filesDir, rememberUserFileName);
+
+            if(!file.exists())
+                return;
+
+            file.delete();
+        }
     }
 }
