@@ -46,7 +46,7 @@ class SignIn : AppCompatActivity() {
     }
 
     fun signInUser(login : String, password : String) : User? {
-        val user = UserService.authorizeUser(this, login, password);
+        val user = SignInService.authorizeUser(this, login, password);
 
         if(user !== null) {
             val intent = Intent(this, MainActivity::class.java);

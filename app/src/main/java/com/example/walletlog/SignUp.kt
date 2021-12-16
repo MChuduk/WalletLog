@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import com.example.walletlog.services.SignUpService
 import com.example.walletlog.services.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ class SignUp : AppCompatActivity() {
         val login = loginEditText.text.toString();
         val password = passwordEditText.text.toString();
 
-        UserService.registerUse(this, login, password);
+        SignUpService.registerUse(this, login, password);
 
  /*       CoroutineScope(Dispatchers.IO).launch {
             UserService.registerUse(applicationContext, login, password);

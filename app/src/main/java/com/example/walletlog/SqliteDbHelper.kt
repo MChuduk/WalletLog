@@ -10,10 +10,12 @@ class SqliteDbHelper(val context: Context) :
 
     override fun onCreate(db: SQLiteDatabase) {
         createUsersTable(db);
+        createTableSpending(db);
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TableUsers");
+        db.execSQL("DROP TABLE IF EXISTS $TableSpending");
     }
 
     override fun onConfigure(db: SQLiteDatabase) {
@@ -25,6 +27,18 @@ class SqliteDbHelper(val context: Context) :
                 "$UserId INTEGER PRIMARY KEY, " +
                 "$UserLogin TEXT, " +
                 "$UserPassword TEXT, " +
-                "$UserBudget INTEGER NOT NULL DEFAULT 0);");
+                "$UserBudget INTEGER NOT NULL DEFAULT 0" +
+                ");");
+    }
+
+    private fun createTableSpending(db: SQLiteDatabase) {
+        db.execSQL("CREATE TABLE $TableSpending (" +
+                "$SpendingId INTEGER PRIMARY KEY, " +
+                "$SpendingUser INTEGER NOT NULL, " +
+                "$SpendingDate TEXT, " +
+                "$SpendingValue INTEGER NOT NULL DEFAULT 0, " +
+                "$SpendingNote TEXT, " +
+                "FOREIGN KEY ($SpendingUser) REFERENCES $TableUsers ($UserId) ON DELETE CASCADE" +
+                ");");
     }
 }

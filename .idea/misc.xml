@@ -8,7 +8,9 @@
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_registration.xml" value="0.2" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_in.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_up.xml" value="0.275" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/fund_bank_account.xml" value="0.264" />
         <entry key="..\:/WalletLog/app/src/main/res/menu/action_bar_menu.xml" value="0.275" />
+        <entry key="..\:/WalletLog/app/src/main/res/menu/action_buttons_menu.xml" value="0.275" />
       </map>
     </option>
   </component>

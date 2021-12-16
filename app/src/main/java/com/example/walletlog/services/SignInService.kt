@@ -2,6 +2,7 @@ package com.example.walletlog.services
 
 import android.content.Context
 import com.example.walletlog.User
+import com.example.walletlog.showToastMessage
 import com.google.gson.GsonBuilder
 import java.io.BufferedReader
 import java.io.File
@@ -11,6 +12,23 @@ class SignInService {
     companion object {
 
         private const val rememberUserFileName = "AppUser.json";
+
+        fun authorizeUser(context: Context, login : String, password: String) : User? {
+            try {
+                val candidate = UserService.getUser(context, login);
+
+                if(candidate === null)
+                    throw Exception("Can't find user with login: $login");
+
+                if(!matchPasswords(candidate, password))
+                    throw Exception("Wrong password for user $login");
+
+                return candidate;
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+                return null;
+            }
+        }
 
         fun rememberUser(context: Context, user : User) {
             val file = File(context.filesDir, rememberUserFileName);
@@ -37,6 +55,10 @@ class SignInService {
                 return;
 
             file.delete();
+        }
+
+        private fun matchPasswords(candidate : User, password: String) : Boolean {
+            return candidate.password == password;
         }
     }
 }

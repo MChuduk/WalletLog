@@ -11,46 +11,6 @@ import java.io.File
 class UserService {
     companion object {
 
-        fun registerUse(context : Context, login : String, password : String) : User? {
-            try {
-                val db = SqliteDbHelper(context).writableDatabase;
-
-                var candidate = getUser(context, login);
-
-                if(candidate != null)
-                    throw Exception("The user with login $login already exists");
-
-                val values = ContentValues();
-                values.put(UserLogin, login);
-                values.put(UserPassword, password);
-
-                val result = db.insertOrThrow(TableUsers, null, values);
-                candidate = getUser(context, login);
-                showToastMessage(context, "Inserted RID: $result");
-                return candidate;
-            } catch (exception : Exception) {
-                showToastMessage(context, exception.message.toString());
-                return null;
-            }
-        }
-
-        fun authorizeUser(context: Context, login : String, password: String) : User? {
-            try {
-                val candidate = getUser(context, login);
-
-                if(candidate === null)
-                    throw Exception("Can't find user with login: $login");
-
-                if(!matchPasswords(candidate, password))
-                    throw Exception("Wrong password for user $login");
-
-                return candidate;
-            } catch (exception : Exception) {
-                showToastMessage(context, exception.message.toString());
-                return null;
-            }
-        }
-
         fun getUser(context : Context, login : String) : User? {
             var cursor : Cursor? = null;
             try{
@@ -62,7 +22,7 @@ class UserService {
                 cursor = db.query(TableUsers, null, selection, selectionArs, null, null, null);
 
                 if(cursor.moveToFirst()){
-                    val id = cursor.getValueInteger(context, UserId);
+                    val id = cursor.getValueString(context, UserId);
                     val login = cursor.getValueString(context, UserLogin);
                     val password = cursor.getValueString(context, UserPassword);
                     val budget = cursor.getValueInteger(context, UserBudget);
@@ -78,8 +38,45 @@ class UserService {
             }
         }
 
-        private fun matchPasswords(candidate : User, password: String) : Boolean {
-            return candidate.password == password;
+        fun insertUser(context: Context, user: User) {
+            try {
+                val db = SqliteDbHelper(context).writableDatabase;
+                val values = ContentValues();
+
+                values.put(UserLogin, user.login);
+                values.put(UserPassword, user.password);
+                values.put(UserBudget, user.budget);
+                val result = db.insertOrThrow(TableUsers, null, values);
+                showToastMessage(context, "Inserted RID: $result");
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+            }
+        }
+
+        fun deleteUser(context: Context, id : String) {
+            try {
+                val db = SqliteDbHelper(context).writableDatabase;
+                val selection = "$UserId = ?";
+                val selectionArs = arrayOf(id);
+
+                db.delete(TableUsers, selection, selectionArs);
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+            }
+        }
+
+        fun changeUserBudget(context: Context, id : String,  amount : Int) {
+            try {
+                val db = SqliteDbHelper(context).writableDatabase;
+                val selection = "$UserId = ?";
+                val selectionArs = arrayOf(id);
+
+                val values = ContentValues();
+                values.put(UserBudget, amount);
+                db.update(TableUsers, values, selection, selectionArs);
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+            }
         }
     }
 }
