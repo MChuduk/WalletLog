@@ -26,8 +26,9 @@ class UserService {
                     val login = cursor.getValueString(context, UserLogin);
                     val password = cursor.getValueString(context, UserPassword);
                     val budget = cursor.getValueFloat(context, UserBudget);
+                    val currency = cursor.getValueString(context, UserCurrency);
 
-                    return User(id, login, password, budget);
+                    return User(id, login, password, budget, currency);
                 }
                 return null;
             } catch (exception : Exception) {
@@ -46,8 +47,9 @@ class UserService {
                 values.put(UserLogin, user.login);
                 values.put(UserPassword, user.password);
                 values.put(UserBudget, user.budget);
+                values.put(UserCurrency, user.currency);
                 val id = db.insertOrThrow(TableUsers, null, values);
-                return User(id.toString(), user.login, user.password, user.budget);
+                return User(id.toString(), user.login, user.password, user.budget, user.currency);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
                 return null;
@@ -74,6 +76,20 @@ class UserService {
 
                 val values = ContentValues();
                 values.put(UserBudget, amount);
+                db.update(TableUsers, values, selection, selectionArs);
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+            }
+        }
+
+        fun changeCurrency(context: Context, id: String, currency : String) {
+            try {
+                val db = SqliteDbHelper(context).writableDatabase;
+                val selection = "$UserId = ?";
+                val selectionArs = arrayOf(id);
+
+                val values = ContentValues();
+                values.put(UserCurrency, currency);
                 db.update(TableUsers, values, selection, selectionArs);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());

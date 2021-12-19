@@ -25,3 +25,5 @@ fun Cursor.getValueString(context: Context, columnName : String) : String {
     val columnIndex = this.getColumnIndex(columnName);
     return this.getString(columnIndex);
 }
+
+fun Float.format(digits: Int) = "%.${digits}f".format(this)

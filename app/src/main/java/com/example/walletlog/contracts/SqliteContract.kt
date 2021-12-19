@@ -8,6 +8,7 @@ const val UserId = "UserId";
 const val UserLogin = "UserLogin";
 const val UserPassword = "UserPassword";
 const val UserBudget = "UserBudget";
+const val UserCurrency = "UserCurrency";
 
 const val TableSpending = "Spending";
 const val SpendingId = "SpendingId";

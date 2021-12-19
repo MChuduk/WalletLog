@@ -2,22 +2,23 @@ package com.example.walletlog
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.walletlog.contracts.TableUsers
 import com.example.walletlog.dialogs.AddSpendingDialog
 import com.example.walletlog.dialogs.BudgetManageDialog
 import com.example.walletlog.services.CurrencyService
 import com.example.walletlog.services.SignInService
 import com.example.walletlog.services.SpendingService
 import com.example.walletlog.services.UserService
-import com.google.android.material.circularreveal.cardview.CircularRevealCardView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView;
 
     private lateinit var spendingDatePicker : SpendingDatePicker;
+    private lateinit var currencyService : CurrencyService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         findViews();
         initComponents();
+        initCurrencyService();
         setAuthorizedUser();
-        calculateBudget();
-
-        val viewModel = ViewModelProvider(this).get(CurrencyService::class.java);
-        viewModel.getCurrency();
-        viewModel.currencyList.observe(this, {list ->
-            Log.d("we: ", list.body()?.size.toString());
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_item_add_spending -> addSpending();
-            //R.id.menu_item_settings -> showSettingsActivity();
+            R.id.menu_item_settings -> showSettingsActivity();
             R.id.menu_item_exit -> exit();
             R.id.manage_budget_action -> showBudgetManageDialog();
         }
@@ -86,16 +82,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getBudgetFormatString() : String {
-        return authorizedUser.budget.toString();
+        val currency = UserService.getUser(this, authorizedUser.login)?.currency;
+        val currencyMultiplier = CurrencyService.getCurrencyMultiplier(currency!!);
+        val budget = authorizedUser.budget * currencyMultiplier;
+        return "${budget.format(1)} $currency";
     }
 
+    private fun changeCurrency(currency: String) {
+        UserService.changeCurrency(this, authorizedUser.id, currency);
+        updateBudgetDisplay();
+    }
 
 
 
 
     fun showUserSpendingAtDate() {
         val date = spendingDatePicker.getSelectedDate();
-        val spendingList = SpendingService.getUserSpending(this, authorizedUser!!.id, date);
+        val spendingList = SpendingService.getUserSpending(this, authorizedUser.id, date);
         showUserSpending(spendingList);
     }
 
@@ -103,12 +106,12 @@ class MainActivity : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = linearLayoutManager
-        recyclerView.adapter = SpendingAdapter(spending)
+        recyclerView.adapter = SpendingAdapter(authorizedUser, spending)
     }
 
     fun addSpending(value : Int, note : String) {
         val date = spendingDatePicker.getSelectedDate();
-        val id = authorizedUser!!.id;
+        val id = authorizedUser.id;
 
         val spending = Spending("", id, date, value, note, 0);
 
@@ -137,9 +140,41 @@ class MainActivity : AppCompatActivity() {
         finish();
     }
 
+    private fun showSettingsActivity() {
+        val intent = Intent(this, Settings::class.java);
+        val bundle = Bundle();
+        bundle.putSerializable("User", authorizedUser);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     private fun setAuthorizedUser() {
         if(intent.hasExtra("User"))
             authorizedUser = intent.extras?.getSerializable("User") as User;
+    }
+
+    private fun initCurrencyService() {
+        currencyService = ViewModelProvider(this).get(CurrencyService::class.java);
+        currencyService.getCurrency();
+        currencyService.currencyList.observe(this, { list ->
+            val currency = list.body()!![0]
+
+            CurrencyService.currencyDictionary["BYN"] = 1.0f;
+            CurrencyService.currencyDictionary["USD"] = currency.USD_out.toFloat();
+            CurrencyService.currencyDictionary["CAD"] = currency.CAD_out.toFloat();
+            CurrencyService.currencyDictionary["CHF"] = currency.CHF_out.toFloat();
+            CurrencyService.currencyDictionary["CZK"] = currency.CZK_out.toFloat();
+            CurrencyService.currencyDictionary["EUR"] = currency.EUR_out.toFloat();
+            CurrencyService.currencyDictionary["GBP"] = currency.GBP_out.toFloat();
+            CurrencyService.currencyDictionary["JPY"] = currency.JPY_out.toFloat();
+            CurrencyService.currencyDictionary["NOK"] = currency.NOK_out.toFloat();
+            CurrencyService.currencyDictionary["PLN"] = currency.PLN_out.toFloat();
+            CurrencyService.currencyDictionary["SEK"] = currency.SEK_out.toFloat();
+            CurrencyService.currencyDictionary["UAH"] = currency.UAH_out.toFloat();
+
+            changeCurrency(authorizedUser.currency);
+            calculateBudget();
+        })
     }
 
     private fun initComponents() {

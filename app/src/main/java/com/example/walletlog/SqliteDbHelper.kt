@@ -27,7 +27,8 @@ class SqliteDbHelper(val context: Context) :
                 "$UserId INTEGER PRIMARY KEY, " +
                 "$UserLogin TEXT, " +
                 "$UserPassword TEXT, " +
-                "$UserBudget REAL NOT NULL DEFAULT 0.0" +
+                "$UserBudget REAL NOT NULL DEFAULT 0.0, " +
+                "$UserCurrency TEXT NOT NULL DEFAULT BYN" +
                 ");");
     }
 
