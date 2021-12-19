@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">WalletLog</string>
 
-    <string name="fund_bank_account_action">Fund Bank Account</string>
+    <string name="manage_budget_action">Manage Budget</string>
 </resources>

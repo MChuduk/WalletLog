@@ -18,9 +18,10 @@ class SpendingService {
                 values.put(SpendingDate, spending.date);
                 values.put(SpendingValue, spending.value);
                 values.put(SpendingNote, spending.note);
+                values.put(SpendingCommit, spending.commit);
 
                 val id = db.insertOrThrow(TableSpending, null, values);
-                return Spending(id.toString(), spending.user, spending.date, spending.value, spending.note);
+                return Spending(id.toString(), spending.user, spending.date, spending.value, spending.note, spending.commit);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
                 return null;
@@ -44,8 +45,9 @@ class SpendingService {
                         val dateQuery = cursor.getValueString(context, SpendingDate);
                         val value = cursor.getValueInteger(context, SpendingValue);
                         val note = cursor.getValueString(context, SpendingNote);
+                        val commit = cursor.getValueInteger(context, SpendingCommit);
 
-                        val spending = Spending(idQuery, user, dateQuery, value, note);
+                        val spending = Spending(idQuery, user, dateQuery, value, note, commit);
                         spendingList.add(spending);
                     } while (cursor.moveToNext());
                 }
@@ -56,8 +58,6 @@ class SpendingService {
             }
         }
 
-
-
         fun deleteSpending(context: Context, id : String) {
             try {
                 val db = SqliteDbHelper(context).writableDatabase;
@@ -65,6 +65,45 @@ class SpendingService {
                 val selectionArs = arrayOf(id);
 
                 db.delete(TableSpending, selection, selectionArs);
+            } catch (exception : Exception) {
+                showToastMessage(context, exception.message.toString());
+            }
+        }
+
+        fun commitUserSpending(context: Context, userId : String) : Int {
+            var cursor : Cursor? = null;
+            try {
+                val db = SqliteDbHelper(context).readableDatabase;
+                val selection = "$SpendingUser = ? AND $SpendingDate < date('now') AND $SpendingCommit = 0";
+                val selectionArs = arrayOf(userId);
+                var totalAmount = 0;
+
+                cursor = db.query(TableSpending, null, selection, selectionArs, null, null, null);
+
+                if(cursor.moveToFirst()){
+                    do {
+                        val id = cursor.getValueString(context, SpendingId);
+                        val value = cursor.getValueInteger(context, SpendingValue);
+                        totalAmount += value;
+                        changeSpendingCommit(context, id, 1);
+                    } while (cursor.moveToNext());
+                }
+                return totalAmount;
+            } catch (exception : Exception) {
+                return 0;
+                showToastMessage(context, exception.message.toString());
+            }
+        }
+
+        fun changeSpendingCommit(context: Context, id : String, commit : Int) {
+            try {
+                val db = SqliteDbHelper(context).writableDatabase;
+                val selection = "$SpendingId = ?";
+                val selectionArs = arrayOf(id);
+
+                val values = ContentValues();
+                values.put(SpendingCommit, commit);
+                db.update(TableSpending, values, selection, selectionArs);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
             }

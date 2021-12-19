@@ -6,11 +6,13 @@
         <entry key="..\:/WalletLog/app/src/main/res/drawable/splash_screen.xml" value="0.19074074074074074" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_main.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_registration.xml" value="0.2" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/activity_settings.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_in.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/activity_sign_up.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/add_spending_dialog.xml" value="0.2869791666666667" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/fund_bank_account.xml" value="0.264" />
         <entry key="..\:/WalletLog/app/src/main/res/layout/spending_item.xml" value="0.536" />
+        <entry key="..\:/WalletLog/app/src/main/res/layout/spinner_item.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/menu/action_bar_menu.xml" value="0.275" />
         <entry key="..\:/WalletLog/app/src/main/res/menu/action_buttons_menu.xml" value="0.275" />
       </map>

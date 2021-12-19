@@ -15,3 +15,4 @@ const val SpendingUser = "SpendingUser";
 const val SpendingDate = "SpendingDate";
 const val SpendingValue = "SpendingValue";
 const val SpendingNote = "SpendingNote";
+const val SpendingCommit = "SpendingCommit";

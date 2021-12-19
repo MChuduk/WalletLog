@@ -4,45 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="50dp"
-    android:layout_marginTop="150dp"
-    android:layout_marginRight="50dp"
-    android:layout_marginBottom="150dp"
+    android:background="@color/pretty_grey"
     android:orientation="vertical"
     tools:context=".SignUp">
 
-    <EditText
-        android:id="@+id/loginEditText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Логин"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="150dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Пароль"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/loginEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#B8B8B8"
+            android:ems="10"
+            android:hint="Логин"
+            android:inputType="textPersonName"
+            android:textColor="@color/pretty_text"
+            android:textColorHighlight="#FFEB3B"
+            android:textColorHint="#CDDC39"
+            android:textColorLink="#FFEB3B" />
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onSignUpButtonClick"
-        android:text="Зарегистрироваться" />
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#B8B8B8"
+            android:ems="10"
+            android:hint="Пароль"
+            android:inputType="textPassword"
+            android:textColor="#CDDC39"
+            android:textColorHighlight="#FFEB3B"
+            android:textColorHint="#CDDC39"
+            android:textColorLink="#FFEB3B" />
 
-    <TextView
-        android:id="@+id/linkLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:onClick="onLinkedLabelClick"
-        android:text="Войти"
-        android:textColor="#0039C8"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/signUpButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#CDDC39"
+            android:onClick="onSignUpButtonClick"
+            android:text="Зарегистрироваться"
+            android:textColor="#000000"
+            app:rippleColor="#FFF1F1" />
+
+        <TextView
+            android:id="@+id/linkLabel2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:onClick="onLinkedLabelClick"
+            android:text="Войти"
+            android:textColor="#FFEF63"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 </LinearLayout>

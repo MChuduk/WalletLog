@@ -13,7 +13,7 @@ class SpendingDatePicker() {
         calendarView.setOnDateChangeListener { calendarView, year, month, dayOfMonth ->
             run {
                 this.year = year;
-                this.month = month;
+                this.month = month+1;
                 this.dayOfMonth = dayOfMonth;
 
                 activity.showUserSpendingAtDate();

@@ -16,6 +16,11 @@ fun Cursor.getValueInteger(context: Context, columnName : String) : Int {
     return this.getInt(columnIndex);
 }
 
+fun Cursor.getValueFloat(context: Context, columnName : String) : Float {
+    val columnIndex = this.getColumnIndex(columnName);
+    return this.getFloat(columnIndex);
+}
+
 fun Cursor.getValueString(context: Context, columnName : String) : String {
     val columnIndex = this.getColumnIndex(columnName);
     return this.getString(columnIndex);

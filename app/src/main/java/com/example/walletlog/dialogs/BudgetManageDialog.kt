@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.walletlog.*
 
-class FundBankAccountDialog(val activity: MainActivity) : AppCompatDialogFragment() {
+class BudgetManageDialog(val activity: MainActivity) : AppCompatDialogFragment() {
 
     private lateinit var amountEditText : EditText;
     private lateinit var setBankAccountLinkLabel : TextView;
@@ -17,7 +17,7 @@ class FundBankAccountDialog(val activity: MainActivity) : AppCompatDialogFragmen
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
-        val view = layoutInflater.inflate(R.layout.fund_bank_account, null)
+        val view = layoutInflater.inflate(R.layout.manage_budget_dialog, null)
 
         findViews(view);
         setLinkLabelsListeners();
@@ -28,13 +28,14 @@ class FundBankAccountDialog(val activity: MainActivity) : AppCompatDialogFragmen
 
     private fun setLinkLabelsListeners() {
         setBankAccountLinkLabel.setOnClickListener {
-            val amount = Integer.parseInt(amountEditText.text.toString());
-            activity.changeUserBudget(amount);
+            val amount = amountEditText.text.toString().toFloat();
+            activity.changeBudget(amount);
             dismiss();
         }
         fundBankAccountLinkLabel.setOnClickListener {
-            val amount = Integer.parseInt(amountEditText.text.toString());
-            activity.changeUserBudget(activity.user.budget + amount);
+            val amount = amountEditText.text.toString().toFloat();
+            val budget = activity.getActualBudget() + amount;
+            activity.changeBudget(budget);
             dismiss();
         }
     }

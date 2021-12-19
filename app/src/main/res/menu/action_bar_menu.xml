@@ -7,12 +7,15 @@
         android:id="@+id/menu_item_add_spending"
         android:title="Добавить трату" />
     <item
+        android:id="@+id/menu_item_settings"
+        android:title="Настроки" />
+    <item
         android:id="@+id/menu_item_exit"
         android:title="Выйти" />
 
     <item
-        android:id="@+id/action_fund_account"
+        android:id="@+id/manage_budget_action"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/fund_bank_account_action"
-        app:showAsAction="always"/>
+        android:title="@string/manage_budget_action"
+        app:showAsAction="always" />
 </menu>

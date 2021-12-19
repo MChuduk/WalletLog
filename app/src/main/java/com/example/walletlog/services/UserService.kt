@@ -25,7 +25,7 @@ class UserService {
                     val id = cursor.getValueString(context, UserId);
                     val login = cursor.getValueString(context, UserLogin);
                     val password = cursor.getValueString(context, UserPassword);
-                    val budget = cursor.getValueInteger(context, UserBudget);
+                    val budget = cursor.getValueFloat(context, UserBudget);
 
                     return User(id, login, password, budget);
                 }
@@ -66,7 +66,7 @@ class UserService {
             }
         }
 
-        fun changeUserBudget(context: Context, id : String,  amount : Int) {
+        fun changeBudget(context: Context, id : String,  amount : Float) {
             try {
                 val db = SqliteDbHelper(context).writableDatabase;
                 val selection = "$UserId = ?";
