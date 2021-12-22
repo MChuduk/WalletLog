@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.walletlog">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Settings"
+            android:name=".screens.Settings"
             android:exported="false" />
         <activity
-            android:name=".SignIn"
+            android:name=".screens.SignIn"
             android:exported="false" />
         <activity
-            android:name=".SignUp"
+            android:name=".screens.SignUp"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".screens.SplashScreen"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -29,10 +31,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.MainActivity"
             android:exported="true" />
+
+        <provider
+            android:authorities="com.chuduk.walletlog.authority"
+            android:name="com.example.walletlog.SpendingContentProvider"
+            android:exported="true"
+            android:grantUriPermissions="true" />
+
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

@@ -1,11 +1,10 @@
 package com.example.walletlog.services
 
 import android.content.Context
-import com.example.walletlog.User
+import com.example.walletlog.model.User
 import com.example.walletlog.showToastMessage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import java.io.*
 import java.lang.Exception
 

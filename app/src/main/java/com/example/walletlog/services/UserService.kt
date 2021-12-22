@@ -3,10 +3,9 @@ package com.example.walletlog.services
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.util.Log
 import com.example.walletlog.*
 import com.example.walletlog.contracts.*
-import java.io.File
+import com.example.walletlog.model.User
 
 class UserService {
     companion object {

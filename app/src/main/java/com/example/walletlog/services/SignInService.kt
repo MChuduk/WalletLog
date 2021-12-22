@@ -1,12 +1,9 @@
 package com.example.walletlog.services
 
 import android.content.Context
-import com.example.walletlog.User
+import com.example.walletlog.model.User
 import com.example.walletlog.showToastMessage
-import com.google.gson.GsonBuilder
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 
 class SignInService {
     companion object {

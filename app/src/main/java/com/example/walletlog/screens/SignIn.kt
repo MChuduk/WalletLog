@@ -1,17 +1,14 @@
-package com.example.walletlog
+package com.example.walletlog.screens
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
+import com.example.walletlog.R
+import com.example.walletlog.model.User
 import com.example.walletlog.services.SignInService
-import com.example.walletlog.services.UserService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class SignIn : AppCompatActivity() {
 

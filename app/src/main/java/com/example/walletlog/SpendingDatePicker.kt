@@ -1,7 +1,7 @@
 package com.example.walletlog
 
-import android.util.Log
 import android.widget.CalendarView
+import com.example.walletlog.screens.MainActivity
 
 class SpendingDatePicker() {
 

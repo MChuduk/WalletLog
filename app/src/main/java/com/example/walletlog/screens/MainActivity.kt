@@ -1,24 +1,24 @@
-package com.example.walletlog
+package com.example.walletlog.screens
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.walletlog.contracts.TableUsers
+import com.example.walletlog.*
 import com.example.walletlog.dialogs.AddSpendingDialog
 import com.example.walletlog.dialogs.BudgetManageDialog
+import com.example.walletlog.model.Spending
+import com.example.walletlog.model.User
 import com.example.walletlog.services.CurrencyService
 import com.example.walletlog.services.SignInService
 import com.example.walletlog.services.SpendingService
 import com.example.walletlog.services.UserService
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun getBudgetFormatString() : String {
         val currency = UserService.getUser(this, authorizedUser.login)?.currency;
         val currencyMultiplier = CurrencyService.getCurrencyMultiplier(currency!!);
-        val budget = authorizedUser.budget * currencyMultiplier;
+        val budget = authorizedUser.budget / currencyMultiplier;
         return "${budget.format(1)} $currency";
     }
 

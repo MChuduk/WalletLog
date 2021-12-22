@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import com.example.walletlog.*
 import com.example.walletlog.contracts.*
+import com.example.walletlog.model.Spending
 
 class SpendingService {
     companion object {

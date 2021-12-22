@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.walletlog.model.Spending
+import com.example.walletlog.model.User
 import com.example.walletlog.services.CurrencyService
 
 class SpendingAdapter(val authorizedUser : User, private val items: List<Spending>) :
@@ -34,7 +36,7 @@ class SpendingAdapter(val authorizedUser : User, private val items: List<Spendin
 
         val currency = authorizedUser.currency;
         val currencyMultiplier = CurrencyService.getCurrencyMultiplier(currency);
-        val amount = items[position].value * currencyMultiplier
+        val amount = items[position].value / currencyMultiplier
 
         holder.spendingValueTextView?.text = "-${amount.format(1)} $currency";
         holder.spendingDeleteButtonClick?.tag = items[position].id;

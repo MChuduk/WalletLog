@@ -1,12 +1,10 @@
-package com.example.walletlog
+package com.example.walletlog.screens
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.walletlog.services.SignInService
-import com.example.walletlog.services.SignUpService
-import kotlinx.coroutines.*
 
 class SplashScreen : AppCompatActivity() {
 

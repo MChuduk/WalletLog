@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.walletlog.*
+import com.example.walletlog.screens.MainActivity
 
 class BudgetManageDialog(val activity: MainActivity) : AppCompatDialogFragment() {
 

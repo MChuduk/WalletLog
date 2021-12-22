@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.example.walletlog.MainActivity
+import com.example.walletlog.screens.MainActivity
 import com.example.walletlog.R
 
 class AddSpendingDialog(val activity: MainActivity) : AppCompatDialogFragment() {

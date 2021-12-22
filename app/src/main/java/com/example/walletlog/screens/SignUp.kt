@@ -1,16 +1,12 @@
-package com.example.walletlog
+package com.example.walletlog.screens
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import com.example.walletlog.R
 import com.example.walletlog.services.SignUpService
-import com.example.walletlog.services.UserService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class SignUp : AppCompatActivity() {
 

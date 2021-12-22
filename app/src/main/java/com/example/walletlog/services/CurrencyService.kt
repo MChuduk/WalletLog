@@ -3,8 +3,8 @@ package com.example.walletlog.services
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.walletlog.data.Currency
-import com.example.walletlog.data.CurrencyRepository
+import com.example.walletlog.api.Currency
+import com.example.walletlog.api.CurrencyRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 

@@ -1,4 +1,4 @@
-package com.example.walletlog
+package com.example.walletlog.model
 
 import java.io.Serializable
 

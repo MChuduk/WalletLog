@@ -1,4 +1,4 @@
-package com.example.walletlog.data
+package com.example.walletlog.api
 
 data class CurrencyItem(
     val CAD_out: String,

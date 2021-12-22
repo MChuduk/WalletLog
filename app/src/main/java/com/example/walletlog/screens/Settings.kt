@@ -1,15 +1,15 @@
-package com.example.walletlog
+package com.example.walletlog.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.walletlog.data.CurrencyItem
+import com.example.walletlog.R
+import com.example.walletlog.model.User
 import com.example.walletlog.services.CurrencyService
 
 class Settings() : AppCompatActivity() {
