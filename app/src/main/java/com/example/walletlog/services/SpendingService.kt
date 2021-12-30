@@ -19,10 +19,11 @@ class SpendingService {
                 values.put(SpendingDate, spending.date);
                 values.put(SpendingValue, spending.value);
                 values.put(SpendingNote, spending.note);
+                values.put(SpendingCategory, spending.category);
                 values.put(SpendingCommit, spending.commit);
 
                 val id = db.insertOrThrow(TableSpending, null, values);
-                return Spending(id.toString(), spending.user, spending.date, spending.value, spending.note, spending.commit);
+                return Spending(id.toString(), spending.user, spending.date, spending.value, spending.note, spending.category, spending.commit);
             } catch (exception : Exception) {
                 showToastMessage(context, exception.message.toString());
                 return null;
@@ -46,9 +47,10 @@ class SpendingService {
                         val dateQuery = cursor.getValueString(context, SpendingDate);
                         val value = cursor.getValueInteger(context, SpendingValue);
                         val note = cursor.getValueString(context, SpendingNote);
+                        val category = cursor.getValueString(context, SpendingCategory);
                         val commit = cursor.getValueInteger(context, SpendingCommit);
 
-                        val spending = Spending(idQuery, user, dateQuery, value, note, commit);
+                        val spending = Spending(idQuery, user, dateQuery, value, note, category, commit);
                         spendingList.add(spending);
                     } while (cursor.moveToNext());
                 }

@@ -1,16 +1,31 @@
 package com.example.walletlog
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.walletlog.screens.DailySpending
+import com.example.walletlog.screens.DiagramSpending
+import com.example.walletlog.screens.MainActivity
 
-class VPAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    
+class ViewPageAdapter : FragmentStateAdapter {
+
+    private var mainActivity: MainActivity;
+
+    constructor(fragmentManager : FragmentManager, lifecycle : Lifecycle, mainActivity: MainActivity)
+            : super(fragmentManager, lifecycle) {
+        this.mainActivity = mainActivity;
+    }
+
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return 2;
     }
 
     override fun createFragment(position: Int): Fragment {
-        TODO("Not yet implemented")
+        when (position) {
+            1 -> return DailySpending(mainActivity);
+            2 -> return DiagramSpending(mainActivity);
+        }
+        return DiagramSpending(mainActivity);
     }
 }

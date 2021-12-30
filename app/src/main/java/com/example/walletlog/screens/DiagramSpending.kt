@@ -1,60 +1,92 @@
 package com.example.walletlog.screens
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.walletlog.R
+import com.example.walletlog.SqliteDbHelper
+import com.example.walletlog.contracts.*
+import com.example.walletlog.getValueInteger
+import com.example.walletlog.getValueString
+import com.example.walletlog.model.Spending
+import com.razerdp.widget.animatedpieview.AnimatedPieView
+import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
+import com.razerdp.widget.animatedpieview.data.SimplePieInfo
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class DiagramSpending(val mainActivity: MainActivity) : Fragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DiagramSpending.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DiagramSpending : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var pie : AnimatedPieView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diagram_spending, container, false)
+
+
+        val view = inflater.inflate(R.layout.fragment_diagram_spending, container, false);
+        pie = view.findViewById<AnimatedPieView>(R.id.animatedPieView);
+        return view;
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DiagramSpending.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DiagramSpending().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onResume() {
+        drawPie();
+        super.onResume()
+    }
+
+    fun drawPie() {
+        val config = AnimatedPieViewConfig();
+        val angle : Float = -90F;
+        config.startAngle(angle)
+            .duration(1000)
+            .drawText(true)
+            .strokeMode(false)
+            .textSize(30f);
+
+        addPieData(config);
+        pie.applyConfig(config);
+        pie.start();
+    }
+
+    fun addPieData(config: AnimatedPieViewConfig) {
+
+        var sum = 0.0;
+        var sum_cat0 = 0.0;
+        var sum_cat1 = 0.0;
+        var sum_cat2 = 0.0;
+
+        for(spending in mainActivity.spendingListInView)
+            sum += spending.value;
+
+        println("sum: ${sum}")
+
+        for(spending in mainActivity.spendingListInView.filter { it.category == "0" })
+            sum_cat0 += spending.value;
+
+        for(spending in mainActivity.spendingListInView.filter { it.category == "1" })
+            sum_cat1 += spending.value;
+
+        for(spending in mainActivity.spendingListInView.filter { it.category == "2" })
+            sum_cat2 += spending.value;
+
+        if(sum_cat0 != 0.0) {
+            val percentage = (sum_cat0 / sum) * 100;
+            config.addData(SimplePieInfo(percentage, Color.parseColor("#683bff"), "Еда"));
+        }
+        if(sum_cat1 != 0.0) {
+            val percentage = (sum_cat1 / sum) * 100;
+            config.addData(SimplePieInfo(percentage, Color.parseColor("#ff0059"), "Отдых"));
+        }
+        if(sum_cat2 != 0.0) {
+            val percentage = (sum_cat2 / sum) * 100;
+            config.addData(SimplePieInfo(percentage, Color.parseColor("#42e026"), "Жилье"));
+        }
     }
 }

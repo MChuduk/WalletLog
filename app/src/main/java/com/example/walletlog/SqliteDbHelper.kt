@@ -39,6 +39,7 @@ class SqliteDbHelper(val context: Context) :
                 "$SpendingDate TEXT, " +
                 "$SpendingValue INTEGER NOT NULL DEFAULT 0, " +
                 "$SpendingNote TEXT, " +
+                "$SpendingCategory TEXT, " +
                 "$SpendingCommit INTEGER NOT NULL DEFAULT 0, " +
                 "FOREIGN KEY ($SpendingUser) REFERENCES $TableUsers ($UserId) ON DELETE CASCADE" +
                 ");");

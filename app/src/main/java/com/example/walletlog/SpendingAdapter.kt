@@ -9,17 +9,19 @@ import com.example.walletlog.model.Spending
 import com.example.walletlog.model.User
 import com.example.walletlog.services.CurrencyService
 
-class SpendingAdapter(val authorizedUser : User, private val items: List<Spending>) :
+class SpendingAdapter(val authorizedUser : User, private var items: List<Spending>) :
     RecyclerView.Adapter<SpendingAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var spendingNoteTextView: TextView? = null
         var spendingValueTextView: TextView? = null
+        var spendingCategoryTextView: TextView? = null
         var spendingDeleteButtonClick : TextView? = null;
 
         init {
             spendingNoteTextView = itemView.findViewById(R.id.spendingNoteTextView);
             spendingValueTextView = itemView.findViewById(R.id.spendingValueTextView);
+            spendingCategoryTextView = itemView.findViewById(R.id.categoryTextView);
             spendingDeleteButtonClick = itemView.findViewById(R.id.removeSpendingLinkLabel)
         }
     }
@@ -40,7 +42,21 @@ class SpendingAdapter(val authorizedUser : User, private val items: List<Spendin
 
         holder.spendingValueTextView?.text = "-${amount.format(1)} $currency";
         holder.spendingDeleteButtonClick?.tag = items[position].id;
+
+        var category = "";
+        when (items[position].category) {
+            "0" -> category = "Еда"
+            "1" -> category = "Отдых"
+            "2" -> category = "Жилье"
+        }
+
+        holder.spendingCategoryTextView?.text = "Категория: ${category}";
     }
 
     override fun getItemCount() = items.size
+
+    fun updateAdapter(mDataList: MutableList<Spending>) {
+        this.items = mDataList
+        notifyDataSetChanged()
+    }
 }

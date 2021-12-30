@@ -6,10 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CalendarView
+import android.widget.TableLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.walletlog.*
 import com.example.walletlog.dialogs.AddSpendingDialog
 import com.example.walletlog.dialogs.BudgetManageDialog
@@ -19,16 +21,22 @@ import com.example.walletlog.services.CurrencyService
 import com.example.walletlog.services.SignInService
 import com.example.walletlog.services.SpendingService
 import com.example.walletlog.services.UserService
+import com.google.android.material.tabs.TabLayout
+import okhttp3.internal.notify
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var authorizedUser : User;
 
+    private lateinit var tabLayout : TabLayout;
+    private lateinit var viewPager : ViewPager2;
     private lateinit var calendarView : CalendarView;
-    private lateinit var recyclerView: RecyclerView;
 
     private lateinit var spendingDatePicker : SpendingDatePicker;
     private lateinit var currencyService : CurrencyService;
+
+    lateinit var spendingAdapter : SpendingAdapter;
+    lateinit var spendingListInView : MutableList<Spending>;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         initComponents();
         initCurrencyService();
         setAuthorizedUser();
+
+        spendingAdapter = SpendingAdapter(authorizedUser, spendingListInView);
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -98,22 +108,22 @@ class MainActivity : AppCompatActivity() {
 
     fun showUserSpendingAtDate() {
         val date = spendingDatePicker.getSelectedDate();
-        val spendingList = SpendingService.getUserSpending(this, authorizedUser.id, date);
-        showUserSpending(spendingList);
+        spendingListInView = SpendingService.getUserSpending(this, authorizedUser.id, date);
+        spendingAdapter.updateAdapter(spendingListInView);
     }
 
-    fun showUserSpending(spending : MutableList<Spending>) {
+/*    fun showUserSpending(spending : MutableList<Spending>) {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = SpendingAdapter(authorizedUser, spending)
-    }
+    }*/
 
-    fun addSpending(value : Int, note : String) {
+    fun addSpending(value : Int, note : String, category : String) {
         val date = spendingDatePicker.getSelectedDate();
         val id = authorizedUser.id;
 
-        val spending = Spending("", id, date, value, note, 0);
+        val spending = Spending("", id, date, value, note, category, 0);
 
         SpendingService.addSpending(this, spending);
         showUserSpendingAtDate();
@@ -178,11 +188,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        spendingListInView = arrayListOf();
         spendingDatePicker = SpendingDatePicker(calendarView, this);
+        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+
+/*        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = linearLayoutManager
+        spendingAdapter = SpendingAdapter(authorizedUser, spendingListInView);
+        recyclerView.adapter = spendingAdapter;*/
+
+        val viewPageAdapter = ViewPageAdapter(supportFragmentManager, lifecycle, this);
+        viewPager.adapter = viewPageAdapter;
+
+        viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageSelected(position: Int) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    viewPager.currentItem = tab.position;
+                };
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+        });
     }
 
     private fun findViews() {
-        recyclerView = findViewById(R.id.recyclerView);
+        tabLayout = findViewById(R.id.TabLayout);
+        //recyclerView = findViewById(R.id.recyclerView);
         calendarView = findViewById(R.id.calendarView);
+        viewPager = findViewById(R.id.viewPager);
     }
 }
